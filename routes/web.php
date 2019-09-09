@@ -11,6 +11,23 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+# Rota do dashboard
+Route::get( '/', 'DashboardController@index' );
+
+# Rota de vendedores
+Route::group( [ 'prefix' => 'vendedores' ], function () {
+
+	Route::get( '/', 'VendedoresController@index' );
+	Route::get( '/cadastrar', 'VendedoresController@cadastrar' );
+
+} );
+
+# Rota de vendas
+Route::group( [ 'prefix' => 'vendas' ], function () {
+
+	Route::get( '/{id}', 'VendasController@index' );
+	Route::get( '/lancar', 'VendasController@lancar' );
+
+} );
+
+
