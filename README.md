@@ -66,7 +66,10 @@ Lucas Ronaldo de Almeida
   
 ## Screenshots  
   
-![Screenshot](relatorio_vendas.png)
+![Screenshot](fotos/cadastro_vendedores.png)
+![Screenshot](fotos/sb_admin.png)
+![Screenshot](fotos/vendas.png)
+![Screenshot](fotos/vendedores.png)
 
 ## License
 
