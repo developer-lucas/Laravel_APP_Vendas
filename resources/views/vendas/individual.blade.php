@@ -34,7 +34,7 @@
 
 	<!-- Moment JS -->
 	<script src="/js/moment.js"></script>
-	
+
 	<!-- Mask Money -->
 	<script src="/js/jquery.maskMoney.min.js"></script>
 
@@ -79,8 +79,9 @@
                   </a>
 						
 
+
 							<div class="table-responsive" style="padding-top: 15px">
-							  <div class="d-flex justify-content-center" style="padding-top: 20px; overflow: hidden;">
+								<div class="d-flex justify-content-center" style="padding-top: 20px; overflow: hidden;">
 									<div id="loading" class="spinner-border" style="display: none">
 										<span class="sr-only">Carregando, aguarde...</span>
 									</div>
@@ -88,24 +89,24 @@
 								<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="display: none">
 									<thead>
 										<tr>
-											<th width="4%"><input type="checkbox"></th>
+											<th width="4%"><input type="checkbox">
+											</th>
 											<th width="15%">Data</th>
 											<th width="5%">ID</th>
-											<th>Vendedor</th>
 											<th>Valor</th>
 											<th width="5%">Comissão</th>
-											<th width="5%"></th>
+											<th width="5%"><a href="#" class="btn btn-info btn-circle btn-sm" data-toggle="modal" data-target="#excluir_venda" title="Excluír todas as vendas"><i class="fas fa-trash-alt"></i></a></th>
 										</tr>
 									</thead>
 									<tfoot>
 										<tr>
-											<th width="4%"><input type="checkbox"></th>
+											<th width="4%"><input type="checkbox">
+											</th>
 											<th width="15%">Data</th>
 											<th width="5%">ID</th>
-											<th>Vendedor</th>
 											<th>Valor</th>
 											<th width="5%">Comissão</th>
-											<th width="5%"></th>
+											<th width="5%"><a href="#" class="btn btn-info btn-circle btn-sm" data-toggle="modal" data-target="#excluir_venda" title="Excluír todas as vendas"><i class="fas fa-trash-alt"></i></a></th>
 										</tr>
 									</tfoot>
 									<tbody>
@@ -121,6 +122,47 @@
 
 			</div>
 			<!-- End of Main Content -->
+
+			<!-- Modal Novo vendedor -->
+			<div class="modal fade" id="excluir_venda" tabindex="-1" role="dialog" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Confirmar operação</h5>
+						</div>
+						<form id="sendForm">
+							<div class="modal-body">
+							<p>As vendas abaixo relacionadas serão excluídas do banco de dados:<br><br>
+							<table class="table table-bordered" width="100%" cellspacing="0">
+									<thead>
+										<tr>
+											<th width="15%">Data</th>
+											<th width="5%">ID</th>
+											<th>Valor</th>
+											<th width="5%">Comissão</th>
+											<th width="5%"></th>
+										</tr>
+									</thead>
+									<tbody>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+									</tbody>
+								</table>
+							</p>
+							</div>
+							<div class="modal-footer">
+								<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+								<button class="btn btn-success" type="submit">Confirmar</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
 
 			<!-- Footer -->
 			<footer class="sticky-footer bg-white">
@@ -142,10 +184,10 @@
 <script>
 	/* Carrega as vendas de um vendedor */
 	$( '#pagination' ).pagination( {
-		dataSource: '{{ Config::get("app.api_url") }}/api/vendas',
+		dataSource: '{{ Config::get("app.api_url") }}/api/vendas/{{ $vendedor_id }}',
 		locator: 'items',
 		totalNumberLocator: function ( response ) {
-			$('#nome_vendedor').html('Todas as Vendas');
+			$( '#nome_vendedor' ).html( '[ID ' + response.id + '] ' + response.nome + ' - Vendas' );
 			return response.items.length;
 		},
 		alias: {
@@ -170,7 +212,7 @@
 			if ( result.length == 0 ) {
 
 				html += '<tr>';
-				html += '<td colspan="6" align="center">Nenhuma venda realizada até o momento.</td>';
+				html += '<td colspan="8" align="center">Nenhuma venda realizada até o momento.</td>';
 				html += '</tr>';
 
 
@@ -182,17 +224,11 @@
 					html += '<td><input type="checkbox"></td>';
 					html += '<td>' + moment( value.created_at ).format( "DD/MM/YYYY HH:mm" ) + '</td>';
 					html += '<td>' + value.id + '</td>';
-					html += '<td>[ID ' + value.vendedor.id + '] ' + value.vendedor.nome + '</td>';
-					html += '<td>R$' + value.valor.toLocaleString('pt-BR', {
-                       style: 'currency',
-                       currency: 'BRL',
-					   minimumFractionDigits: 2,  
-                       maximumFractionDigits: 2
-                    }) + '</td>';
+					html += '<td>R$' + value.valor + '</td>';
 					html += '<td>R$' + (value.comissao).toLocaleString( "pt-BR", {
 							style: "currency"
 						} ) + '</td>';
-					html += '<td><a href="#" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash-alt"></i></a></td>';
+					html += '<td><a href="#" class="btn btn-danger btn-circle btn-sm" data-toggle="modal" data-target="#excluir_venda" title="Excluír venda [ID ' + value.id + ']"><i class="fas fa-trash-alt"></i></a></td>';
 					html += '</tr>';
 
 				} );

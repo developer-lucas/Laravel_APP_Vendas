@@ -69,7 +69,7 @@
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">Vendedores</h6>
+							<h6 id="title" class="m-0 font-weight-bold text-primary">Carregando, aguarde...</h6>
 						</div>
 						<div class="card-body">
 							<a href="#" class="btn btn-success btn-icon-split" data-toggle="modal" data-target="#cadastrar_vendedor">
@@ -89,7 +89,7 @@
 
 
 							<div class="table-responsive" style="padding-top: 15px">
-								<div class="d-flex justify-content-center" style="padding-top: 20px">
+								<div class="d-flex justify-content-center" style="padding-top: 20px; overflow: hidden;">
 									<div id="loading" class="spinner-border" style="display: none">
 										<span class="sr-only">Carregando, aguarde...</span>
 									</div>
@@ -104,9 +104,7 @@
 											<th>Nome</th>
 											<th>E-mail</th>
 											<th width="5%">Comissão</th>
-											<th width="5%"></th>
-										</tr>
-										<tr>
+											<th width="10%"></th>
 										</tr>
 									</thead>
 									<tfoot>
@@ -118,7 +116,7 @@
 											<th>Nome</th>
 											<th>E-mail</th>
 											<th width="5%">Comissão</th>
-											<th width="5%"></th>
+											<th width="10%"></th>
 										</tr>
 									</tfoot>
 									<tbody>
@@ -164,27 +162,30 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">Cadastrar vendedor</h5>
-					<button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-				
-
+					<button class="close" type="button" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">×</span>
+                    </button>
 				</div>
 				<form id="sendForm">
 					<div class="modal-body">
 						<div id="message" class="alert alert-primary" style="display: none"></div>
 						<div class="form-group">
-							<label>Nome</label>
+							<label><strong>Nome</strong></label>
 							<input type="text" class="form-control" id="nome" name="nome">
 						</div>
 						<div class="form-group">
-							<label>Endereço de e-mail</label>
+							<label><strong>Endereço de e-mail</strong></label>
 							<input type="email" class="form-control" id="email" name="email">
+						</div>
+						<div class="form-group" style="width: 50%">
+							<label><strong>Comissão (%)</strong></label>
+							<input type="number" class="form-control" id="comissao" name="comissao" step="0.01" min="0" max="100">
+							<small>Caso não seja informado, o valor será 8.5%</small>
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-						<button class="btn btn-success" type="submit">Cadastrar</button>
+						<button class="btn btn-secondary" type="button" data-dismiss="modal"><i class="fas fa-times-circle"></i> Cancelar</button>
+						<button class="btn btn-success" type="submit"><i class="fas fa-check-circle"></i> Cadastrar</button>
 					</div>
 				</form>
 			</div>
@@ -255,6 +256,9 @@
 			dataSource: '{{ Config::get("app.api_url") }}/api/vendedores',
 			locator: 'items',
 			totalNumberLocator: function ( response ) {
+				
+				/* Configurando o titulo */
+				$('#title').html(response.items.length + ' vendedores');
 				vendedores = response.items;
 				return response.items.length;
 			},
@@ -295,7 +299,7 @@
 						html += '<td>' + value.nome + '</td>';
 						html += '<td>' + value.email + '</td>';
 						html += '<td>' + value.comissao + '%</td>';
-						html += '<td><a href="/vendas/' + value.id + '" class="btn btn-info btn-circle btn-sm" title="Vendas"><i class="fas fa-shopping-cart"></i></a></td>';
+						html += '<td align="center"><a href="/vendas/' + value.id + '" class="btn btn-info btn-circle btn-sm" title="Vendas"><i class="fas fa-shopping-cart"></i></a> <a href="#" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash-alt"></i></a></td>';
 						html += '</tr>';
 
 					} );
@@ -324,6 +328,7 @@
 		let payload = new FormData();
 		payload.append( 'nome', $( '#nome' ).val() );
 		payload.append( 'email', $( '#email' ).val() );
+		payload.append( 'comissao', $( '#comissao' ).val() );
 
 		/* Send data to softpay */
 		fetch( '{{ Config::get("app.api_url") }}/api/vendedores/cadastrar', {

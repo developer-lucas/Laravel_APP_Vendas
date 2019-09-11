@@ -25,7 +25,13 @@ Route::group( [ 'prefix' => 'vendedores' ], function () {
 # Rota de vendas
 Route::group( [ 'prefix' => 'vendas' ], function () {
 
-	Route::get( '/{id}', 'VendasController@index' );
+	# Rota de todas as vendas
+	Route::get( '/', 'VendasController@index' );
+	
+	# Rota de vendas por vendedor
+	Route::get( '/{id}', 'VendasController@individual' );
+	
+	# Lançamento de novas vendas
 	Route::get( '/lancar', 'VendasController@lancar' );
 
 } );

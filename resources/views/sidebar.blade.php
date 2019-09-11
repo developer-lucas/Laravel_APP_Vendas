@@ -41,7 +41,17 @@
           <span>Vendedores</span>
         </a>
       </li>
-
+      
+       @if ($id == 3)
+      <li class="nav-item active">
+       @else
+       <li class="nav-item">
+       @endif
+        <a class="nav-link collapsed" href="/vendas">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Vendas</span>
+        </a>
+      </li>
 
       <!-- Sidebar Toggler (Sidebar) -->
       <div class="text-center d-none d-md-inline">

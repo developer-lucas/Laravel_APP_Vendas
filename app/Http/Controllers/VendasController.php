@@ -9,13 +9,20 @@ use View;
 
 class VendasController extends Controller
 {
-    public function index($id)
-    {	
+	# Retorna todas as vendas
+    public function index()
+    {				
+        return View('vendas.index');
 		
-		# Retorna a view para o usuário com o ID do vendedor
-        return View('vendas.index')
+    } 
+	
+	# Retorna a view para o usuário com o ID do vendedor
+	public function individual($id)
+    {			
+		
+        return View('vendas.individual')
 			->with('vendedor_id', $id);
 		
-    } 	
+    } 
 	
 }
