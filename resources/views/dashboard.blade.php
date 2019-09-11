@@ -68,10 +68,11 @@
 									<p>Disponibilizamos uma API para gerenciamento de todas as funcionalidades do console.<br><br>
 										<b>Rotas disponíveis</b><br><br>
 
-										<b>[GET] /api/vendedores</b><br> - Listar todos os Vendedores<br><br>
-										<b>[POST] /api/vendedores/cadastrar </b><br> - Criar Vendedor<br> - Parâmetros de entrada: nome, email<br><br>
-										<b>[GET] /api/vendas </b><br> - Listar todas as vendas de um vendedor<br> - Parâmetros de entrada: vendedor_id <br><br>
+										<b>[GET] /api/vendedores</b><br> - Listar todos os Vendedores<br><br>										
+										<b>[GET] /api/vendas </b><br> - Listar todas as vendas <br><br>
+										<b>[GET] /api/vendas/{vendedor_id} </b><br> - Listar todas as vendas de um único vendedor<br><br>
 										<b>[POST] /api/vendas/lancar </b> <br> - Lançar nova Venda <br> - Parâmetros de entrada: vendedor_id, valor</p>
+								        <b>[POST] /api/vendedores/cadastrar </b><br> - Criar Vendedor<br> - Parâmetros de entrada: nome, email<br><br>
 								</div>
 							</div>
 

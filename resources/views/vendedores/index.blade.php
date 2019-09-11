@@ -204,12 +204,12 @@
 				
 
 				</div>
-				<form id="sendForm">
+				<form id="sendVendas">
 					<div class="modal-body">
-						<div id="message" class="alert alert-primary" style="display: none"></div>
+						<div id="messageVendas" class="alert alert-primary" style="display: none"></div>
 						<div class="form-group">
 							<label>Selecione o vendedor</label>
-							<select class="form-control" id="vendedor"></select>
+							<select class="form-control" id="vendedor" name="vendedor"></select>
 						</div>
 						<div class="form-group">
 							<label>Valor da venda</label>
@@ -234,7 +234,7 @@
 	/* Campo monetário */
 	$(function() {
        $('#valor').maskMoney();
-    })
+    });	
 	
 	/* Carrega os vendedores no select */
 	function loadVendedores(){
@@ -317,12 +317,59 @@
 		} )
 
 	}
+	
+	/* Realizar uma nova venda  */
+	$( "#sendVendas" ).submit( function ( event ) {
+
+		event.preventDefault();
+		
+		// Prepara o payload para envio
+		let payload = new FormData();
+		payload.append( 'vendedor_id', $( "#vendedor" ).children( "option:selected" ).val() );
+		payload.append( 'valor', $( '#valor' ).val().replace(/[^0-9.]/g, "") );
+		
+		console.log($( '#valor' ).val().replace(/[^0-9.]/g, ""));
+
+		/* Send data to softpay */
+		fetch( '{{ Config::get("app.api_url") }}/api/vendas/lancar', {
+				method: 'POST',
+				body: payload
+			} )
+			.then( function ( response ) {
+				response.json().then( function ( result ) {
+
+					$( '#sendVendas' ).trigger( "reset" );					
+
+					if ( response.status == 200 ) {
+
+                        $("#messageVendas").removeClass().addClass( 'alert alert-success' ).html( 'Venda realizada com sucesso.' ).show().fadeTo(2000, 500).slideUp(500, function(){
+                          $("#messageVendas").hide();
+                        });
+						
+					} else {
+
+						$("#messageVendas").removeClass().addClass( 'alert alert-warning' ).html(result.message ).show().fadeTo(2000, 500).slideUp(500, function(){
+                          $("#messageVendas").hide();
+                        });
+					}
+
+
+				} )
+
+				// Falha inesperada
+				.catch( err => {
+					$("#messageVendas").removeClass().addClass( 'alert alert-danger' ).html( 'Serviço indisponível no momento. Tente novamente mais tarde.' ).show().fadeTo(2000, 500).slideUp(500, function(){
+                        $("#messageVendas").hide();
+                    });
+				} );
+			} )
+
+	} );
 
 	/* Cadastra um novo vendedor */
 	$( "#sendForm" ).submit( function ( event ) {
 
 		event.preventDefault();
-		$('#message').hide();
 
 		// Prepara o payload para envio
 		let payload = new FormData();
@@ -342,12 +389,17 @@
 
 					if ( response.status == 200 ) {
 
-						$( '#message' ).removeClass().addClass( 'alert alert-success' ).html( 'Vendedor cadastrado com sucesso.' ).show();
+						$("#message").removeClass().addClass( 'alert alert-success' ).html( 'Vendedor cadastrado com sucesso.' ).show().fadeTo(2000, 500).slideUp(500, function(){
+                           $("#message").hide();							
+                        });
+						
                         loadData();
 						
 					} else {
 
-						$( '#message' ).removeClass().addClass( 'alert alert-danger' ).html( result.mensagem ).show();
+						$("#message").removeClass().addClass( 'alert alert-warning' ).html( result.mensagem ).show().fadeTo(2000, 500).slideUp(500, function(){
+                           $("#message").hide();							
+                        });
 					}
 
 
@@ -355,7 +407,9 @@
 
 				// Falha inesperada
 				.catch( err => {
-					$( '#message' ).removeClass().addClass( 'alert alert-danger' ).html( 'Serviço indisponível no momento.' ).show();
+					$("#messageVendas").removeClass().addClass( 'alert alert-danger' ).html( 'Serviço indisponível no momento. Tente novamente mais tarde.' ).show().fadeTo(2000, 500).slideUp(500, function(){
+                        $("#messageVendas").hide();
+                    });
 				} );
 			} )
 
