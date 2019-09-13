@@ -42,6 +42,13 @@ php artisan key:generate
 
 Se você não configurar a Application Key, sessão e outros dados de usuários não estarão seguros!
 ```
+### Configurando o Endpoint da API
+
+Acesse o arquivo *.ENV localizado na raíz do projeto, e altere a senha linha:
+
+```
+API_URL=http://tray_api.test <---- Sua URL da API
+```
 
 ## Configurações adicionais
 
