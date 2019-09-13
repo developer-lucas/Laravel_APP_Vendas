@@ -97,8 +97,6 @@
 								<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="display: none">
 									<thead>
 										<tr>
-											<th width="4%"><input type="checkbox">
-											</th>
 											<th width="15%">Data</th>
 											<th width="5%">ID</th>
 											<th>Nome</th>
@@ -109,8 +107,6 @@
 									</thead>
 									<tfoot>
 										<tr>
-											<th width="4%"><input type="checkbox">
-											</th>
 											<th width="15%">Data</th>
 											<th width="5%">ID</th>
 											<th>Nome</th>
@@ -284,7 +280,7 @@
 				if ( result.length == 0 ) {
 
 					html += '<tr>';
-					html += '<td colspan="7" align="center"><br>Nenhum vendedor cadastrado até o momento.<br></td>';
+					html += '<td colspan="6" align="center"><br>Nenhum vendedor cadastrado até o momento.<br></td>';
 					html += '</tr>';
 
 
@@ -293,13 +289,12 @@
 					$.each( result, function ( index, value ) {
 
 						html += '<tr>';
-						html += '<td><input type="checkbox"></td>';
 						html += '<td>' + moment( value.created_at ).format( "DD/MM/YYYY HH:mm" ) + '</td>';
 						html += '<td>' + value.id + '</td>';
 						html += '<td>' + value.nome + '</td>';
 						html += '<td>' + value.email + '</td>';
 						html += '<td>' + value.comissao + '%</td>';
-						html += '<td align="center"><a href="/vendas/' + value.id + '" class="btn btn-info btn-circle btn-sm" title="Vendas"><i class="fas fa-shopping-cart"></i></a> <a href="#" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash-alt"></i></a></td>';
+						html += '<td align="center"><a href="/vendas/' + value.id + '" class="btn btn-info btn-circle btn-sm" title="Vendas"><i class="fas fa-shopping-cart"></i></a></td>';
 						html += '</tr>';
 
 					} );

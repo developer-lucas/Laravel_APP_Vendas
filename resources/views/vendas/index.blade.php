@@ -34,7 +34,7 @@
 
 	<!-- Moment JS -->
 	<script src="/js/moment.js"></script>
-	
+
 	<!-- Mask Money -->
 	<script src="/js/jquery.maskMoney.min.js"></script>
 
@@ -79,8 +79,10 @@
                   </a>
 						
 
+
+
 							<div class="table-responsive" style="padding-top: 15px">
-							  <div class="d-flex justify-content-center" style="padding-top: 20px; overflow: hidden;">
+								<div class="d-flex justify-content-center" style="padding-top: 20px; overflow: hidden;">
 									<div id="loading" class="spinner-border" style="display: none">
 										<span class="sr-only">Carregando, aguarde...</span>
 									</div>
@@ -88,24 +90,20 @@
 								<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="display: none">
 									<thead>
 										<tr>
-											<th width="4%"><input type="checkbox"></th>
 											<th width="15%">Data</th>
 											<th width="5%">ID</th>
 											<th>Vendedor</th>
 											<th>Valor</th>
 											<th width="5%">Comissão</th>
-											<th width="5%"></th>
 										</tr>
 									</thead>
 									<tfoot>
 										<tr>
-											<th width="4%"><input type="checkbox"></th>
 											<th width="15%">Data</th>
 											<th width="5%">ID</th>
 											<th>Vendedor</th>
 											<th>Valor</th>
 											<th width="5%">Comissão</th>
-											<th width="5%"></th>
 										</tr>
 									</tfoot>
 									<tbody>
@@ -145,7 +143,7 @@
 		dataSource: '{{ Config::get("app.api_url") }}/api/vendas',
 		locator: 'items',
 		totalNumberLocator: function ( response ) {
-			$('#nome_vendedor').html('Todas as Vendas');
+			$( '#nome_vendedor' ).html( 'Todas as Vendas' );
 			return response.items.length;
 		},
 		alias: {
@@ -179,20 +177,18 @@
 				$.each( result, function ( index, value ) {
 
 					html += '<tr>';
-					html += '<td><input type="checkbox"></td>';
 					html += '<td>' + moment( value.created_at ).format( "DD/MM/YYYY HH:mm" ) + '</td>';
 					html += '<td>' + value.id + '</td>';
 					html += '<td>[ID ' + value.vendedor.id + '] ' + value.vendedor.nome + '</td>';
-					html += '<td>R$' + value.valor.toLocaleString('pt-BR', {
-                       style: 'currency',
-                       currency: 'BRL',
-					   minimumFractionDigits: 2,  
-                       maximumFractionDigits: 2
-                    }) + '</td>';
-					html += '<td>R$' + (value.comissao).toLocaleString( "pt-BR", {
-							style: "currency"
-						} ) + '</td>';
-					html += '<td><a href="#" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash-alt"></i></a></td>';
+					html += '<td>R$' + value.valor.toLocaleString( 'pt-BR', {
+						style: 'currency',
+						currency: 'BRL',
+						minimumFractionDigits: 2,
+						maximumFractionDigits: 2
+					} ) + '</td>';
+					html += '<td>R$' + ( value.comissao ).toLocaleString( "pt-BR", {
+						style: "currency"
+					} ) + '</td>';					
 					html += '</tr>';
 
 				} );

@@ -45,7 +45,6 @@
 					<!-- Page Heading -->
 					<div class="d-sm-flex align-items-center justify-content-between mb-4">
 						<h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-						<a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Gerar Relatório</a>
 					</div>
 
 
@@ -66,13 +65,16 @@
 								</div>
 								<div class="card-body">
 									<p>Disponibilizamos uma API para gerenciamento de todas as funcionalidades do console.<br><br>
-										<b>Rotas disponíveis</b><br><br>
+										<br>
 
-										<b>[GET] /api/vendedores</b><br> - Listar todos os Vendedores<br><br>										
+										<b>[GET] /api/vendedores</b><br> - Listar todos os Vendedores<br><br>	
+										<b>[POST] /api/vendedores/cadastrar </b><br> - Criar Vendedor<br> - Parâmetros de entrada: nome, email<br><br>
+										<b>[POST] /api/vendedores/remover </b><br> - Excluir Vendedor<br> - Parâmetros de entrada: id<br>
+										<hr>									
 										<b>[GET] /api/vendas </b><br> - Listar todas as vendas <br><br>
 										<b>[GET] /api/vendas/{vendedor_id} </b><br> - Listar todas as vendas de um único vendedor<br><br>
 										<b>[POST] /api/vendas/lancar </b> <br> - Lançar nova Venda <br> - Parâmetros de entrada: vendedor_id, valor</p>
-								        <b>[POST] /api/vendedores/cadastrar </b><br> - Criar Vendedor<br> - Parâmetros de entrada: nome, email<br><br>
+								        <b>[POST] /api/vendas/remover </b> <br> - Exclui uma venda <br> - Parâmetros de entrada: id</p
 								</div>
 							</div>
 
